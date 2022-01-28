@@ -1,0 +1,26 @@
+{
+  "name": "api-screenshot",
+  "version": "1.0.0",
+  "description": "A service to take screenshot from sites. Original idea from Eleventy.",
+  "scripts": {},
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kinduff/api-screenshot.git"
+  },
+  "author": {
+    "name": "Zach Leatherman",
+    "email": "zachleatherman@gmail.com",
+    "url": "https://zachleat.com/"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/kinduff/api-screenshot/issues"
+  },
+  "homepage": "https://github.com/kinduff/api-screenshot#readme",
+  "dependencies": {
+    "@netlify/functions": "^0.7.2",
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^13.1.2"
+  }
+}
