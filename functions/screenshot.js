@@ -11,13 +11,13 @@ function isValidUrl(url) {
   }
 }
 
-async function screenshot(url, format, viewportSize, dpr = 1, withJs = true) {
+async function screenshot(url, format, width, height, dpr = 1, withJs = true) {
   const browser = await chromium.puppeteer.launch({
     executablePath: await chromium.executablePath,
     args: chromium.args,
     defaultViewport: {
-      width: viewportSize.width,
-      height: viewportSize.height,
+      width: width,
+      height: height,
       deviceScaleFactor: parseFloat(dpr),
     },
     headless: chromium.headless,
@@ -48,20 +48,20 @@ async function screenshot(url, format, viewportSize, dpr = 1, withJs = true) {
 }
 
 async function handler(event, context) {
-  let pathSplit = event.path.split("/").slice(-2);
-  let [url, _cache] = pathSplit;
-  let format = "jpeg";
-  let viewport = { width: 1200, height: 630 };
-  let dpr = 1.4;
-
-  url = decodeURIComponent(url);
-
   try {
+    const rawUrl = new URL(event.rawUrl);
+    const query = rawUrl.searchParams;
+    const url = decodeURIComponent(rawUrl.pathname.split("/").slice(-2).shift());
+    const width = parseInt(query.get("width")) || 1200;
+    const height = parseInt(query.get("height")) || 630;
+    const format = "jpeg";
+    const dpr = 1.4;
+
     if (!isValidUrl(url)) throw new Error(`Invalid \`url\`: ${url}`);
 
-    let output = await screenshot(url, format, viewport, dpr);
+    let output = await screenshot(url, format, width, height, dpr);
 
-    console.log(url);
+    console.log(width, height, format, dpr, url);
 
     return {
       statusCode: 200,
